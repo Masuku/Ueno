@@ -83,7 +83,7 @@ async def on_message(message):
                 break
 
     elif message.content.startswith('!hello'):
-        msg = 'Hello {0.author.mention}'.format(message)
+        msg = 'Hello!!! {0.author.mention}'.format(message)
         await bot.send_message(message.channel, msg)
 
     elif message.content.startswith('!close'):
