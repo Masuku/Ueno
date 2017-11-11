@@ -1,0 +1,1 @@
+C:\Users\Hamada\Dropbox\discord\discord.py-async python MyUeno.py
