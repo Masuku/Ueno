@@ -135,7 +135,7 @@ async def img(search_word : str):
 @bot.command(description='league of legends')
 async def lol(summn_name : str):
     """サモナーネームを入力してstatusを取得"""
-    API_KEY = "RGAPI-bde36e47-7fe5-4136-8401-6bdd0607b292"
+    API_KEY = "RGAPI-7c9338ef-2db2-4038-8008-55026170c7fb"
     watcher = RiotWatcher(API_KEY)
     region = "jp1"
     try:
@@ -154,8 +154,9 @@ async def lol(summn_name : str):
             raise
 
     try:
-        current_game = watcher.spectator.by_summoner(region, me['id'])
-        await bot.say('ゲームモード:'+current_game["gameMode"])
+        curr_game_stats = watcher.spectator.by_summoner(region, me['id'])
+        await bot.say('Participant:'+curr_game_stats["gameMode"]+curr_game_stats["gameLength"])
+        await bot.say(curr_game_stats["summonerName"])
     except HTTPError as err:
         if err.response.status_code == 429:
             await bot.say('We should retry in {} seconds.'.format(e.headers['Retry-After']))
