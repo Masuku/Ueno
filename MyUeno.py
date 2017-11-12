@@ -141,15 +141,17 @@ async def lol(summn_name : str):
     try:
         me = watcher.summoner.by_name(region, summn_name)
         await bot.say(me)
-        league = watcher.league.by_summoner(region, me["id"])
-        await bot.say("Tier:"+league["tier"]+",Rank:"+league["rank"])
+        #ranked_stats = watcher.league.by_summoner(region, me["id"])
+        #print(ranked_stats)
     except HTTPError as err:
         if err.me.status_code == 429:
             print("We should retry in {} seconds.".format(e.headers["Retry-After"]))
             print("this retry-after is handled by default by the RiotWatcher library")
             print("future requests wait until the retry-after time passes")
+        elif err.me.status_code == 400:
+            bot.say("BAD REQUEST")
         elif err.me.status_code == 403:
-            bot.say("API key looks like expired")
+            bot.say("API key is expired")
         elif err.me.status_code == 404:
             print("Summoner with that ridiculous name not found.")
         else:
@@ -157,10 +159,11 @@ async def lol(summn_name : str):
 
     try:
         curr_game_stats = watcher.spectator.by_summoner(region, me["id"])
-        mini = str(curr_game_stas["gameLength"]/60)
-        sec = str(curr_game_stas["gameLength"]%60)
-        await bot.say("Participant:"+curr_game_stats["gameMode"]+","+mini+"min"+sec+"sec")
-        await bot.say(curr_game_stats["summonerName"])
+        mini = str(int(curr_game_stats["gameLength"]/60))
+        sec = str(curr_game_stats["gameLength"]%60)
+        print(curr_game_stats)
+        await bot.say("GameMode:"+curr_game_stats["gameMode"]+", "+mini+"min"+sec+"sec")
+        # await bot.say(curr_game_stats["summonerName"])
     except HTTPError as err:
         if err.response.status_code == 429:
             await bot.say("We should retry in {} seconds.".format(e.headers["Retry-After"]))
