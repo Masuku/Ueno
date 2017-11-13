@@ -119,7 +119,7 @@ async def choose(*choices : str):
 
 @bot.command(description="random img")
 async def img(search_word : str):
-    """search images and choose randomly"""
+    """search images of keyword and choose one randomly"""
     API_KEY = "AIzaSyA7LE-k7siyvDUqcSpitW4j1SGbVrfoyTQ"
     ENGINE_ID = "017124472341657688815:nmd6rufrz3o"
     URL = "https://www.googleapis.com/customsearch/v1?key=" + API_KEY + "&cx=" + ENGINE_ID + "&searchType=image&q=" + quote(search_word)
@@ -127,9 +127,6 @@ async def img(search_word : str):
     # http = credentials.authorize(httplib2.Http())
     r = requests.get(URL)
     data = r.json()
-    # for item in data["items"]:
-    #     links.append(item["link"])
-    # await bot.say(random.choice(links))
     link_list = [item["link"] for item in data["items"]]
     await bot.say(random.choice(link_list))
 
@@ -150,11 +147,11 @@ async def lol(summn_name : str):
             print("this retry-after is handled by default by the RiotWatcher library")
             print("future requests wait until the retry-after time passes")
         elif err.response.status_code == 400:
-            bot.say("BAD REQUEST")
+            await bot.say("BAD REQUEST")
         elif err.response.status_code == 403:
-            bot.say("API key is expired")
+            await bot.say("API key is expired")
         elif err.response.status_code == 404:
-            print("Summoner with that ridiculous name not found.")
+            await bot.say("Summoner with that ridiculous name not found.")
         else:
             raise
 
@@ -174,10 +171,6 @@ async def lol(summn_name : str):
         elif err.response.status_code == 404:
             await bot.say("Summoner is currently not in game.")
         else:
-            raise
-# @bot.command()
-# async def bga():
-#     url = "https://ja.boardgamearena.com/#!welcome"
-#     await bot.say(url)
+            raise bot.sa
 
 bot.run("MzcxOTEwMDY2Mjc1ODc2ODY0.DM8fwQ.1UNuCCqNp1ViXydh0Gd2rjqOEM8")
