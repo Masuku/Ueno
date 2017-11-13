@@ -127,10 +127,11 @@ async def img(search_word : str):
     # http = credentials.authorize(httplib2.Http())
     r = requests.get(URL)
     data = r.json()
-    links = []
-    for item in data["items"]:
-        links.append(item["link"])
-    await bot.say(random.choice(links))
+    # for item in data["items"]:
+    #     links.append(item["link"])
+    # await bot.say(random.choice(links))
+    link_list = [item["link"] for item in data["items"]]
+    await bot.say(random.choice(link_list))
 
 @bot.command(description="league of legends")
 async def lol(summn_name : str):
