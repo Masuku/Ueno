@@ -145,15 +145,15 @@ async def lol(summn_name : str):
         #ranked_stats = watcher.league.by_summoner(region, me["id"])
         #print(ranked_stats)
     except HTTPError as err:
-        if err.me.status_code == 429:
+        if err.response.status_code == 429:
             print("We should retry in {} seconds.".format(e.headers["Retry-After"]))
             print("this retry-after is handled by default by the RiotWatcher library")
             print("future requests wait until the retry-after time passes")
-        elif err.me.status_code == 400:
+        elif err.response.status_code == 400:
             bot.say("BAD REQUEST")
-        elif err.me.status_code == 403:
+        elif err.response.status_code == 403:
             bot.say("API key is expired")
-        elif err.me.status_code == 404:
+        elif err.response.status_code == 404:
             print("Summoner with that ridiculous name not found.")
         else:
             raise
